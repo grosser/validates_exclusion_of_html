@@ -1,0 +1,1 @@
+require 'validates_exclusion_of_html'
