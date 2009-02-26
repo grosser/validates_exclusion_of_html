@@ -1,5 +1,5 @@
 Simple filtering for html as validation.
-There are better more complete solutions out there, but this is simple/painless.
+There are more complete and complex solutions out there, but this is simple/painless.
 
     class Movie < ActiveRecord::Base
       validates_exclusion_of_html :title, :producer
@@ -11,6 +11,8 @@ Message will be translated using `s_` if available.
 Install
 =======
     script/plugin install git://github.com/grosser/validates_exclusion_of_html.git
+OR
+    sudo gem install grosser-validates_exclusion_of_html
 
 Author
 ======
