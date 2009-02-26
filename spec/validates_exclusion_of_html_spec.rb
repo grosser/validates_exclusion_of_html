@@ -2,8 +2,9 @@ require File.join(File.dirname(__FILE__),'spec_helper')
 
 require 'acts_as_fu'
 build_model :users do
-  string :name
+  string :name, :title
   validates_exclusion_of_html :name
+  validates_exclusion_of_html :title, :message=>'custom'
 end
 
 describe :validates_exclusion_of_html do
@@ -21,6 +22,18 @@ describe :validates_exclusion_of_html do
     @user.errors[:name].should == "must not include &gt; or &lt;"
   end
 
+  it "adds a custom message" do
+    @user.title = '<script>fu</script>'
+    @user.valid?
+    @user.errors[:title].should == "custom"
+  end
+
+  it "does not mark valid records as invalid" do
+    @user.name = 'not so evil'
+    @user.should be_valid
+  end
+
+  #TODO can this change be reverted ?
   it "uses translation if available" do
     klas = ActiveRecord::Base
     def klas.s_(x)
@@ -28,10 +41,5 @@ describe :validates_exclusion_of_html do
     end
     @user.valid?
     @user.errors[:name].should == "Xmust not include &gt; or &lt;X"
-  end
-
-  it "does not mark valid records as invalid" do
-    @user.name = 'not so evil'
-    @user.should be_valid
   end
 end
