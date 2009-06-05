@@ -1,8 +1,18 @@
 require File.join(File.dirname(__FILE__),'spec_helper')
 
-require 'acts_as_fu'
-build_model :users do
-  string :name, :title
+ActiveRecord::Base.establish_connection({
+  :adapter => "sqlite3",
+  :database => ":memory:",
+})
+
+ActiveRecord::Schema.define(:version => 1) do
+  create_table :users, :force=>true do |t|
+    t.string :name, :title
+    t.timestamps
+  end
+end
+
+class User < ActiveRecord::Base
   validates_exclusion_of_html :name
   validates_exclusion_of_html :title, :message=>'custom'
 end
@@ -31,15 +41,5 @@ describe :validates_exclusion_of_html do
   it "does not mark valid records as invalid" do
     @user.name = 'not so evil'
     @user.should be_valid
-  end
-
-  #TODO can this change be reverted ?
-  it "uses translation if available" do
-    klas = ActiveRecord::Base
-    def klas.s_(x)
-      "X#{x}X"
-    end
-    @user.valid?
-    @user.errors[:name].should == "Xmust not include &gt; or &lt;X"
   end
 end

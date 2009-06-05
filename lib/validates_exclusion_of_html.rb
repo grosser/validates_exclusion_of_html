@@ -5,9 +5,7 @@ class ActiveRecord::Base
     validate do |object|
       attributes.each do |attr|
         if object.send(attr) =~ /<|>/
-          message = options[:message]||'must not include &gt; or &lt;'
-          message = s_(message) if respond_to? :s_
-          object.errors.add(attr,message)
+          object.errors.add(attr,options[:message]||'must not include &gt; or &lt;')
         end
       end
     end

@@ -1,12 +1,12 @@
 Simple filtering for html as validation.
 There are more complete and complex solutions out there, but this is simple/painless.
 
-    class Movie < ActiveRecord::Base
-      validates_exclusion_of_html :title, :producer
+    class User < ActiveRecord::Base
+      validates_exclusion_of_html :name, :username
+      validates_exclusion_of_html :firstname, :message=>'dont be evil...'
     end
 
-Only supports :message option for now...
-Message will be translated using `s_` if available.
+Only supports :message option for now (default message is 'must not include &gt; or &lt;')
 
 Install
 =======
@@ -16,6 +16,6 @@ OR
 
 Author
 ======
-Michael Grosser  
+[Michael Grosser](http://pragmatig.wordpress.com)  
 grosser.michael@gmail.com  
 Hereby placed under public domain, do what you want, just do not hold me accountable...  
