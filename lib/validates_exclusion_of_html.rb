@@ -1,4 +1,4 @@
-require 'activerecord'
+require 'active_record'
 class ActiveRecord::Base
   def self.validates_exclusion_of_html(*attributes)
     options = attributes.extract_options!
